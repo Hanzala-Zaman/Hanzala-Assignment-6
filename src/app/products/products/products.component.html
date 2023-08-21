@@ -1,0 +1,275 @@
+<div class="sideBar">
+<button (click)="formAddShow()" class="btn btn-primary mx-2 mt-4">Add Product</button>
+<button (click)="formByIdShow()" class="btn btn-primary mx-2 mt-4">Delete Product by ID</button>
+<button (click)="formBynameShow() " class="btn btn-primary mx-2 mt-4">Delete Product by Name</button>
+ <button (click)="formCatProdShow() " class="btn btn-primary mx-2 mt-4">Category Products</button>
+ <button (click)="formVendorProdShow()" class="btn btn-primary mx-2 mt-4">Vendor Products</button>
+ <button (click)="getCheapProducts()" class="btn btn-primary mx-2 mt-4">Cheap Products</button>
+ <button (click)="formProbById()" class="btn btn-primary mx-2 mt-4">Show Product by ID</button>
+</div>
+ <div class="cont">
+ <h1 class="heading">Products</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category ID</th>
+        <th>Vendor ID</th>
+    </tr>
+    <tbody *ngFor="let temp of tempproducts">
+        <tr>
+            <td>{{temp.id}}</td>
+            <td>{{temp.name}}</td>
+            <td>{{temp.price}}</td>
+            <td>{{temp.cat_id}}</td>
+            <td>{{temp.ven_id}}</td>
+        </tr>
+    </tbody>
+    <tbody *ngFor="let temp of filteredProducts">
+      
+      <tr>
+        <td>{{ temp.id }}</td>
+        <td>{{ temp.name }}</td>
+        <td>{{ temp.price }}</td>
+        <td>{{ temp.cat_id }}</td>
+        <td>{{ temp.ven_id }}</td>
+      </tr>
+    </tbody>
+   
+</table>
+<h1 class="heading">Categories</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Status</th>
+  </tr>
+  <tbody *ngFor="let temp of tempcategory">
+    <tr *ngIf="temp.status">
+      <td>{{ temp.id }}</td>
+      <td>{{ temp.name }}</td>
+      <td>Active</td>
+    </tr>
+    <tr *ngIf="!temp.status">
+      <td>{{ temp.id }}</td>
+      <td>{{ temp.name }}</td>
+      <td>Inactive</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 class="heading">Vendors</h1>
+<table>
+  <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Contact Number</th>
+  </tr>
+  <tbody *ngFor="let temp of tempvendors">
+      <tr>
+          <td>{{temp.id}}</td>
+          <td>{{temp.firstName}}</td>
+          <td>{{temp.lastName}}</td>
+          <td>{{temp.contactNumber}}</td>
+
+      </tr>
+  </tbody>
+</table>
+</div>
+<!-- Add product form -->
+ <div class="container" *ngIf="showAddForm">
+
+    <form [formGroup]="registerForm" class="border" (ngSubmit)="addProduct()">
+      <div >
+              <div class="row-head  g-0">
+                    <span class="head">ADD Product</span>
+               </div>
+      </div>
+      
+      <div class="row">
+          
+      <div class="col mb-3">
+          <label for="name" class="form=label">Name</label>
+          <input 
+          type="text" 
+          class="form-control" 
+          id="name" 
+          placeholder="Name"
+          formControlName="name">
+          <div class="form-text"></div>
+      </div>
+     
+          <div class="col mb-3">
+          <label for="price" class="form=label">Price</label>
+          <input type="text" 
+          class="form-control" 
+          id="price" 
+          placeholder="Price"
+          formControlName="price">
+          <div class="form-text"></div>
+          </div>
+    
+          <div class="col mb-3">
+          <label for="cat_id" class="form=label">Category ID</label>
+          <input type="text" 
+          class="form-control" 
+          id="cat_id" 
+          placeholder="Category ID"
+          formControlName="cat_id">
+          <div class="form-text"></div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-4 mb-3">
+          <label for="venid" class="form=label">Vendor ID</label>
+          <input
+          type="text"
+          class="form-control" 
+          id="venid" 
+          placeholder="Vendor ID"
+          formControlName="ven_id">
+      <div class="form-text"></div>
+      </div>
+      </div>
+      
+      <div class="row mb-3">
+      <div class="col-6 offset-3">
+      <div class="d-grid">
+      <button type="submit" class="btn btn-primary">Submit</button >
+      </div>
+      </div>
+      </div>
+      </form>
+    </div>
+
+    <!-- Delete product by ID form -->
+
+    <div class="delProd-container" *ngIf="showDelForm">
+        <form [formGroup]="registerForm" class="border 10" (ngSubmit)="delById()">
+          <div>
+            <div class="row-head  g-0">
+              <span class="head">Delete Product By ID</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 offset-md-3 mb-3">
+              <label for="id" class="form=label">ID</label>
+              <input 
+              type="text"
+              class="form-control" 
+              id="id" 
+              placeholder="ID"
+              formControlName="idToDelete">
+              <div class="form-text"></div>
+            </div>
+          </div>
+      
+          <div class="row mb-3">
+            <div class="col-3 offset-3">
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Delete</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+       <!-- Delete product by Name form -->
+
+       <div class="delProd-container" *ngIf="showdelFormName">
+        <form [formGroup]="registerForm" class="border 10" (ngSubmit)="delByName()">
+          <div>
+            <div class="row-head  g-0">
+              <span class="head">Delete Product By Name</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 offset-md-3 mb-3">
+              <label for="id" class="form=label">Name</label>
+              <input 
+              type="text"
+              class="form-control" 
+              id="id" 
+              placeholder="Name"
+              formControlName="idToDelete">
+              <div class="form-text"></div>
+            </div>
+          </div>
+      
+          <div class="row mb-3">
+            <div class="col-3 offset-3">
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Delete</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="container" *ngIf="showcatProd">
+        <form [formGroup]="registerForm" class="border" (ngSubmit)="showcatProducts()">
+          <div class="row-head g-0">
+            <span class="head">Select Category</span>
+          </div>
+          <div class="row">
+            <div class="col-md-6 offset-md-3 mb-3">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-control" id="category" formControlName="selectedCategory">
+                <option *ngFor="let category of tempcategory" [value]="category.id">{{ category.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-3 offset-3">
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Show Products</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        </div>
+
+        <div class="container" *ngIf="showvenProd">
+          <form [formGroup]="registerForm" class="border" (ngSubmit)="showVendorProducts()">
+            <div class="row-head g-0">
+              <span class="head">Select Vendor</span>
+            </div>
+            <div class="row">
+              <div class="col-md-6 offset-md-3 mb-3">
+                <label for="ven_id" class="form-label">Vendor ID</label>
+                <input type="text" class="form-control" id="ven_id" placeholder="Vendor ID" formControlName="ven_id">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-3 offset-3">
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">Show Vendor Products</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        
+        </div>
+
+        <div class="container" *ngIf="showProdById">
+          <form [formGroup]="registerForm" class="border" (ngSubmit)="showProdByProdId()">
+            <div class="row">
+              <div class="col-md-6 offset-md-3 mb-3">
+                <label for="id" class="form-label">Product ID</label>
+                <input type="text" class="form-control" id="id" placeholder="Product ID" formControlName="id">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-3 offset-3">
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">Show Product</button>
+                </div>
+              </div>
+            </div>
+          </form>
+          
+        </div>
