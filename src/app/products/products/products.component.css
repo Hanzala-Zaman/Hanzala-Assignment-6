@@ -49,6 +49,15 @@ button1:hover
     display: flex;
     justify-content: center;
     align-items: center;
+    
+}
+.container-3
+{
+    height: 300vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -100px;
 }
 
 form
@@ -123,4 +132,47 @@ form1
 .btn-primary:hover
 {
     color: #0d6efd;
+}
+
+.close-icon1
+{
+   
+    margin-left: 13%;
+    position: absolute;
+}
+.close-icon2
+{
+margin-left: 11%;
+position: absolute;
+}
+.close-icon3
+{
+margin-left: 10%;
+position: absolute;
+}
+.close-icon5
+{
+margin-left: 23%;
+position: absolute;
+}
+.container1
+{   
+     height: 111px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -1171px;
+    width: 750px;
+    margin-left: 410px;
+}
+.modal-content
+{
+    
+    padding: 40px
+}
+.close-icon6
+{
+    margin-left: 90%;
+    margin-top: -32px;
+    position: absolute;
 }

@@ -4,8 +4,8 @@
 <button (click)="formBynameShow() " class="btn btn-primary mx-2 mt-4">Delete Product by Name</button>
  <button (click)="formCatProdShow() " class="btn btn-primary mx-2 mt-4">Category Products</button>
  <button (click)="formVendorProdShow()" class="btn btn-primary mx-2 mt-4">Vendor Products</button>
- <button (click)="getCheapProducts()" class="btn btn-primary mx-2 mt-4">Cheap Products</button>
  <button (click)="formProbById()" class="btn btn-primary mx-2 mt-4">Show Product by ID</button>
+ <button (click)="openModal()" class="btn btn-primary mx-2 mt-4">Get Cheap Products</button>
 </div>
  <div class="cont">
  <h1 class="heading">Products</h1>
@@ -21,23 +21,14 @@
         <tr>
             <td>{{temp.id}}</td>
             <td>{{temp.name}}</td>
-            <td>{{temp.price}}</td>
+            <td>{{temp.price}}$</td>
             <td>{{temp.cat_id}}</td>
             <td>{{temp.ven_id}}</td>
         </tr>
     </tbody>
-    <tbody *ngFor="let temp of filteredProducts">
-      
-      <tr>
-        <td>{{ temp.id }}</td>
-        <td>{{ temp.name }}</td>
-        <td>{{ temp.price }}</td>
-        <td>{{ temp.cat_id }}</td>
-        <td>{{ temp.ven_id }}</td>
-      </tr>
-    </tbody>
-   
 </table>
+
+
 <h1 class="heading">Categories</h1>
 <table>
   <tr>
@@ -60,6 +51,7 @@
 </table>
 
 <h1 class="heading">Vendors</h1>
+
 <table>
   <tr>
       <th>ID</th>
@@ -85,6 +77,7 @@
       <div >
               <div class="row-head  g-0">
                     <span class="head">ADD Product</span>
+                    <button class="close-icon1 btn-danger" (click)="closeProductsModal()">✕</button>
                </div>
       </div>
       
@@ -151,6 +144,7 @@
           <div>
             <div class="row-head  g-0">
               <span class="head">Delete Product By ID</span>
+              <button class="close-icon2 btn-danger" (click)="closeProdIdModal()">✕</button>
             </div>
           </div>
           <div class="row">
@@ -184,6 +178,7 @@
           <div>
             <div class="row-head  g-0">
               <span class="head">Delete Product By Name</span>
+              <button class="close-icon3 btn-danger" (click)="closeProdNameModal()">✕</button>
             </div>
           </div>
           <div class="row">
@@ -214,6 +209,7 @@
         <form [formGroup]="registerForm" class="border" (ngSubmit)="showcatProducts()">
           <div class="row-head g-0">
             <span class="head">Select Category</span>
+            <button class="close-icon1 btn-danger" (click)="closeCatProdModal()">✕</button>
           </div>
           <div class="row">
             <div class="col-md-6 offset-md-3 mb-3">
@@ -230,6 +226,27 @@
               </div>
             </div>
           </div>
+          <div class="show-table">
+            <table>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category ID</th>
+                <th>Vendor ID</th>
+            </tr>
+            <tbody *ngFor="let temp of filteredProducts">
+      
+              <tr>
+                <td>{{ temp.id }}</td>
+                <td>{{ temp.name }}</td>
+                <td>{{ temp.price }}</td>
+                <td>{{ temp.cat_id }}</td>
+                <td>{{ temp.ven_id }}</td>
+              </tr>
+            </tbody>
+           </table>
+          </div>
         </form>
         </div>
 
@@ -237,11 +254,14 @@
           <form [formGroup]="registerForm" class="border" (ngSubmit)="showVendorProducts()">
             <div class="row-head g-0">
               <span class="head">Select Vendor</span>
+              <button class="close-icon1 btn-danger" (click)="closeVenProdModal()">✕</button>
             </div>
             <div class="row">
               <div class="col-md-6 offset-md-3 mb-3">
-                <label for="ven_id" class="form-label">Vendor ID</label>
-                <input type="text" class="form-control" id="ven_id" placeholder="Vendor ID" formControlName="ven_id">
+                <label for="ven_id" class="form-label">Vendor</label>
+                <select class="form-control" id="vendor" formControlName="selectedvendor">
+                  <option *ngFor="let vendor of tempvendors" [value]="vendor.id">{{ vendor.firstName}}&nbsp;{{vendor.lastName}}</option>
+                </select>
               </div>
             </div>
             <div class="row mb-3">
@@ -250,6 +270,27 @@
                   <button type="submit" class="btn btn-primary">Show Vendor Products</button>
                 </div>
               </div>
+            </div>
+            <div class="show-table">
+              <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Category ID</th>
+                  <th>Vendor ID</th>
+              </tr>
+              <tbody *ngFor="let temp of filteredProducts">
+        
+                <tr>
+                  <td>{{ temp.id }}</td>
+                  <td>{{ temp.name }}</td>
+                  <td>{{ temp.price }}</td>
+                  <td>{{ temp.cat_id }}</td>
+                  <td>{{ temp.ven_id }}</td>
+                </tr>
+              </tbody>
+             </table>
             </div>
           </form>
         
@@ -260,6 +301,7 @@
             <div class="row">
               <div class="col-md-6 offset-md-3 mb-3">
                 <label for="id" class="form-label">Product ID</label>
+                <button class="close-icon5 btn-danger" (click)="closeGetProdIdModal()">✕</button>
                 <input type="text" class="form-control" id="id" placeholder="Product ID" formControlName="id">
               </div>
             </div>
@@ -270,6 +312,60 @@
                 </div>
               </div>
             </div>
+            <div class="show-table">
+              <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Category ID</th>
+                  <th>Vendor ID</th>
+              </tr>
+              <tbody *ngFor="let temp of filteredProducts">
+        
+                <tr>
+                  <td>{{ temp.id }}</td>
+                  <td>{{ temp.name }}</td>
+                  <td>{{ temp.price }}</td>
+                  <td>{{ temp.cat_id }}</td>
+                  <td>{{ temp.ven_id }}</td>
+                </tr>
+              </tbody>
+             </table>
+            </div>
           </form>
-          
         </div>
+
+
+        <div id ="myModal" class="container1" *ngIf="showModal" [ngClass]="{'show': showModal}">
+          <div class="modal-content">
+            <span class="close" (click)="closeModal()"></span>
+            <label for="priceInput">Enter max price:</label>
+            <input type="number" id="priceInput" [(ngModel)]="enteredPrice">
+            <button class="close-icon6 btn-danger" (click)="closeModal() ">✕</button>
+            <br>
+            <button (click)=" cheapProducts()" class="btn btn-primary">Show Products</button>
+            <div id="filteredProducts" class="filteredProducts">
+              <table class="cheap-modal">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category ID</th>
+                    <th>Vendor ID</th>
+                </tr>
+                <tbody *ngFor="let product of filteredProducts">
+                    <tr>
+                        <td>{{product.id}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.cat_id}}</td>
+                        <td>{{product.ven_id}}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        
+
+        

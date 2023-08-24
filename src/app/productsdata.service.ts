@@ -26,7 +26,7 @@ export class ProductsdataService {
       id: "3",
       name: "Vans",
       price: "300",
-      ven_id: "003",
+      ven_id: "002",
       cat_id: "013",
     },
    
@@ -52,9 +52,9 @@ export class ProductsdataService {
   
  vendors = [
   { id: "001", firstName: "Save", lastName: "Mart", contactNumber: "051-12121" },
-  { id: "002", firstName: "Asian", lastName: "Mall", contactNumber: "051-23232" },
-  { id: "003", firstName: "CSD",   lastName: "Mart", contactNumber: "051-34343" },
-  { id: "004", firstName: "Punjab", lastName: "C&C", contactNumber: "051-45454" }
+  { id: "002", firstName: "Super", lastName: "Mart", contactNumber: "051-23232" },
+  { id: "003", firstName: "One",   lastName: "Mart", contactNumber: "051-34343" },
+  { id: "004", firstName: "Asian", lastName: "Mart", contactNumber: "051-45454" }
  ];
 
  categories = [

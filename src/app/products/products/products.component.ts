@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { ProductsdataService } from 'src/app/productsdata.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
@@ -8,6 +8,9 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
+  
+  
+  enteredPrice: any;
 
   tempproducts: any[] = [];
   filteredProducts: any[] = [];
@@ -19,7 +22,8 @@ export class ProductsComponent {
     price: new FormControl(''),
     cat_id: new FormControl(''),
     ven_id: new FormControl(''),
-    selectedCategory: new FormControl('') 
+    selectedCategory: new FormControl(''),
+    selectedvendor: new FormControl('') 
   });
 
   submittedData: any;
@@ -32,7 +36,9 @@ export class ProductsComponent {
   showcatProd: boolean = false;
   showvenProd: boolean = false;
   showProdById: boolean = false;
-
+  showModal: boolean = false;
+  selectedCategoryId: string | null | undefined;
+  selectedVendorId: string | null | undefined;
   constructor(public prodData: ProductsdataService, private formBuilder: FormBuilder)
   {
   this.registerForm = this.formBuilder.group({
@@ -42,7 +48,8 @@ export class ProductsComponent {
     price: [''],
     cat_id: [''],
     ven_id: [''],
-    selectedCategory: ['']
+    selectedCategory: [''],
+    selectedvendor:  ['']
   });
 }
 
@@ -119,23 +126,26 @@ formCatProdShow() {
 }
 
 showcatProducts() {
-  const selectedCategoryId = this.registerForm.value.selectedCategory;
-  this.filteredProducts = this.tempproducts.filter(product => product.cat_id === selectedCategoryId);
-  this.showcatProd = false;
+  this.selectedCategoryId = this.registerForm.value.selectedCategory;
+  this.filteredProducts = this.tempproducts.filter(product => product.cat_id === this.selectedCategoryId);
+  if (this.filteredProducts.length === 0) 
+  {
+    alert("No product found");
+  }
 }
 
 formVendorProdShow() {
   this.showvenProd = !this.showvenProd;
 }
 
-showVendorProducts() {
-  const selectedVendorId = this.registerForm.value.ven_id;
-  this.filteredProducts = this.tempproducts.filter(product => product.ven_id === selectedVendorId);
-  this.showvenProd = false;
-}
-
-getCheapProducts() {
-  this.filteredProducts = this.tempproducts.filter(product => product.price < 200);
+showVendorProducts() 
+{
+  this.selectedVendorId = this.registerForm.value.selectedvendor;
+  this.filteredProducts = this.tempproducts.filter(product => product.ven_id === this.selectedVendorId);
+  if (this.filteredProducts.length === 0) 
+  {
+    alert("No product found");
+  }
 }
 
 formProbById()
@@ -154,9 +164,52 @@ showProdByProdId()
     this.filteredProducts = []; 
   }
 
+ 
+}
+
+closeProductsModal()
+{
+  this.showAddForm = false; 
+}
+closeProdIdModal()
+{
+  this.showDelForm = false;
+}
+
+closeProdNameModal()
+{
+  this.showdelFormName = false;
+}
+closeCatProdModal()
+{
+  this.showcatProd = false;
+}
+closeVenProdModal()
+{
+  this.showvenProd = false;
+}
+closeGetProdIdModal()
+{
   this.showProdById = false;
 }
 
+  openModal() 
+  {
+    this.showModal = !this.showModal;
+  }
+
+  cheapProducts() 
+  {
+    this.filteredProducts = this.tempproducts.filter(product => product.price <= this.enteredPrice);
+  }
+
+  closeModal() 
+  {
+    this.showModal = false;
+    this.filteredProducts = []; 
+  }
+
 }
+
 
 
